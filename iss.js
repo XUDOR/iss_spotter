@@ -21,3 +21,24 @@ const fetchMyIP = function(callback) {
 };
 
 module.exports = { fetchMyIP };
+
+const fetchCoordsByIP = function(ip, callback) {
+  const url = `https://ipwho.is/${ip}`;
+  request(url, (error, response, body) => {
+    if (error) {
+      callback(error, null);
+      return;
+    }
+    const data = JSON.parse(body);
+    if (!data.success) {
+      callback(data.message, null);
+      return;
+    }
+    const coords = {
+      latitude: data.latitude,
+      longitude: data.longitude
+    };
+    callback(null, coords);
+  });
+}
+ //////check to do list && instructions see:: week5 in courses
